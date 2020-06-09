@@ -25,22 +25,33 @@ const CardsPlatformComponent = () => {
     const platformService = new PlatformService();
     const [platforms, setPlatforms] = useState([]);
     const [loading, setLoading] = useState(false);
-     
+    //Sort alfabetically
+    function compare (a: any, b: any) {
+        const platformA = a.name.toUpperCase();
+        const platformB = b.name.toUpperCase();
+
+        let comparison = 0;
+        if (platformA > platformB){
+            comparison = 1;
+        } else if(platformA < platformB){
+            comparison = -1;
+        }
+        return comparison;
+    };  
     useEffect(() => {
         const getPlatforms = () => {
             setLoading(true);
             platformService.getAll().then(response => {
-                setPlatforms(response.data);
+                setPlatforms(response.data.sort(compare));
             });
             setLoading(false);
-    
         };
         getPlatforms();
     }, [])
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [active, setActive] = useState(1);
-    const [platformsPerPage] = useState(3);
+    const [platformsPerPage] = useState(6);
     const indexOfLastPlatform = currentPage * platformsPerPage;
     const indexOfFirstPost = indexOfLastPlatform - platformsPerPage;
     const currentPlatforms = platforms.slice(indexOfFirstPost, indexOfLastPlatform);
