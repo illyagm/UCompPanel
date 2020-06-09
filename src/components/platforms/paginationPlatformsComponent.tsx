@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import styled from 'styled-components';
 const Styles = styled.div`
@@ -7,12 +7,15 @@ const Styles = styled.div`
     }
 `;
 
-const paginationBasic = () => {
-    let active = 1;
+const paginationBasic = (props: any) => {
+    
     let items = [];
-    for (let number = 1; number <= 5; number++) {
+    for (let number = 1; number <= Math.ceil(props.totalPlatforms / props.platformsPerPage); number++) {
         items.push(
-            <Pagination.Item key={number} active={number === active}>
+            <Pagination.Item 
+                key={number} 
+                active={props.active === number}
+                onClick={() => props.paginate(number)}>
                 {number}
             </Pagination.Item>,
         );

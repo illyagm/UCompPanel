@@ -24,21 +24,38 @@ const ButtonsStyle = styled.div`
 const CardsPlatformComponent = () => {
     const platformService = new PlatformService();
     const [platforms, setPlatforms] = useState([]);
-    const getPlatforms = () => {
-        platformService.getAll().then(response => {
-            setPlatforms(response.data);
-        })
-    }
+    const [loading, setLoading] = useState(false);
+     
     useEffect(() => {
+        const getPlatforms = () => {
+            setLoading(true);
+            platformService.getAll().then(response => {
+                setPlatforms(response.data);
+            });
+            setLoading(false);
+    
+        };
         getPlatforms();
-    }, [platforms])
+    }, [])
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [active, setActive] = useState(1);
+    const [platformsPerPage] = useState(3);
+    const indexOfLastPlatform = currentPage * platformsPerPage;
+    const indexOfFirstPost = indexOfLastPlatform - platformsPerPage;
+    const currentPlatforms = platforms.slice(indexOfFirstPost, indexOfLastPlatform);
+    //Change page
+    const paginate = (pageNumber: React.SetStateAction<number>) => {
+        setCurrentPage(pageNumber);
+        setActive(pageNumber);
+    } 
     return (
         <ButtonsStyle>
             <InsertPlatformModal />
             <Container>
                 <Row>
                     {
-                        platforms.map((platform: IPlatform, key: number) => {
+                        currentPlatforms.map((platform: IPlatform, key: number) => {
                 return (
                     <div key={key}>
                         <Col sm>
@@ -69,7 +86,7 @@ const CardsPlatformComponent = () => {
             })
                     }
                 </Row>
-                <PaginationPlatformsComponents />
+                <PaginationPlatformsComponents platformsPerPage ={platformsPerPage} totalPlatforms={platforms.length} paginate={paginate} currentPage={currentPage} active={active}/>
             </Container>
         </ButtonsStyle>
     )
