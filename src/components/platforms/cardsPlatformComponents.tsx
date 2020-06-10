@@ -64,7 +64,7 @@ const CardsPlatformComponent = () => {
     console.log(platforms);
     return (
         <ButtonsStyle>
-            <InsertPlatformModal getPlatforms={setPlatforms} insertPlatform={insertPlatform} setPlatforms={setPlatforms} compare={compare}/>
+            <InsertPlatformModal insertPlatform={insertPlatform}/>
             <Container>
                 <Row>
                     {
