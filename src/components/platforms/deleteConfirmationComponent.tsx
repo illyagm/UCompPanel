@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
 const ConfirmDeletion = (props: any) => {
-    const { platformId, platformName, deletePlatform, setPlatforms, getAll, compare } = props;
+    const { platformId, platformName, deletePlatform, setPlatforms, getAll, compare, truncate } = props;
     //Metodos modal
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -28,7 +28,7 @@ const ConfirmDeletion = (props: any) => {
   
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Delete <b>{platformName}</b>?</Modal.Title>
+            <Modal.Title>Delete <b>{truncate(platformName)}</b>?</Modal.Title>
           </Modal.Header>
           <Modal.Body>Are you sure you want to delete <b>{platformName}</b> platform?</Modal.Body>
           <Modal.Footer>

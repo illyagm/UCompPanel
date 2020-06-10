@@ -61,6 +61,9 @@ const CardsPlatformComponent = () => {
         setCurrentPage(pageNumber);
         setActive(pageNumber);
     } 
+    const truncate = (str: any) => {
+        return str.length > 10 ? str.substring(0, 15) + "..." : str;
+    }
     console.log(platforms);
     return (
         <ButtonsStyle>
@@ -74,10 +77,10 @@ const CardsPlatformComponent = () => {
                         <Col sm>
                             <Card style={{ width: '15rem' }} className="cardStyle">
                                 <Card.Body>
-                                    <Card.Title>{platform.name}</Card.Title>
+                                    <Card.Title>{truncate(platform.name)}</Card.Title>
 
                                     <Card.Text>
-                                        <a target="_blank" rel="noopener noreferrer" href={"" + platform.url + ""}>{platform.url}</a>
+                                        <a target="_blank" rel="noopener noreferrer" href={"" + platform.url + ""}>{truncate(platform.url)}</a>
                                     </Card.Text>
                                     <Card.Text>
                                         <b>Created: </b><TimeAgo date={platform.createdAt} /><br />
@@ -88,7 +91,9 @@ const CardsPlatformComponent = () => {
                                         <EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} setPlatforms={setPlatforms}  getAll={getAll} compare={compare} />
                                         </Col>
                                         <Col sm={3}>
-                                        <DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}  setPlatforms={setPlatforms} getAll={getAll} compare={compare}/>
+                                        <DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}  setPlatforms={setPlatforms} getAll={getAll} compare={compare} truncate={truncate}/>
+                                        </Col>
+                                        <Col sm>
                                         </Col>
                                     </Row>                              
                                 </Card.Body>

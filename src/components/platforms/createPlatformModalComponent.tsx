@@ -39,7 +39,7 @@ const CreatePlatformModalComponent = (props: any) => {
 
     <>
       <Button variant="success" onClick={handleShow}>
-        Insert Platform
+        Add...
         </Button>
 
       <Modal show={show} onHide={handleClose}>
