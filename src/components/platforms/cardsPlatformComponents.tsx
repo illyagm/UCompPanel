@@ -26,7 +26,7 @@ const CardsPlatformComponent = () => {
     const { getAll, insertPlatform, editPlatform, deletePlatform  } = platformService; 
     const [platforms, setPlatforms] = useState([]);
     //Sort alfabetically
-    function compare (a: any, b: any) {
+    const compare = (a: any, b: any) => {
         const platformA = a.name.toUpperCase();
         const platformB = b.name.toUpperCase();
 
@@ -64,7 +64,7 @@ const CardsPlatformComponent = () => {
     console.log(platforms);
     return (
         <ButtonsStyle>
-            <InsertPlatformModal insertPlatform={insertPlatform}/>
+            <InsertPlatformModal insertPlatform={insertPlatform} setPlatforms={setPlatforms} getAll={getAll} compare={compare}/>
             <Container>
                 <Row>
                     {
@@ -85,10 +85,10 @@ const CardsPlatformComponent = () => {
                                     </Card.Text>
                                     <Row>
                                         <Col sm={3}>
-                                        <EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} />
+                                        <EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} setPlatforms={setPlatforms}  getAll={getAll} compare={compare} />
                                         </Col>
                                         <Col sm={3}>
-                                        <DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}/>
+                                        <DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}  setPlatforms={setPlatforms} getAll={getAll} compare={compare}/>
                                         </Col>
                                     </Row>                              
                                 </Card.Body>

@@ -18,7 +18,7 @@ const paginationBasic = (props: any) => {
                 onClick={() => props.paginate(number)}>
                 {number}
             </Pagination.Item>,
-        );
+        ); 
     }
     return (
     <Styles>

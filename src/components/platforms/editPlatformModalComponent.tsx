@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 const EditPlatformComponent = (props: any) => {
-    //Metodos formulario
+  const { id, name, url, editPlatform, setPlatforms, getAll, compare } = props;
+  //Metodos modal
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  //Metodos formulario
     const [datos, setDatos] = useState({
-      name: props.name,
-      url: props.url,
+      name: name,
+      url: url,
     });
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
       setDatos({
@@ -14,14 +19,19 @@ const EditPlatformComponent = (props: any) => {
     };
     const sendData = (event: { preventDefault: () => void; }) => {
       event.preventDefault();
-      props.editPlatform(props.id, datos.name, datos.url);
+      editPlatform(id, datos.name, datos.url);
       console.log('sending data...' + datos.name + ' ' + datos.url);
       setShow(false);
     }
-    //Metodos modal
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    useEffect(() => {
+      setTimeout(()=>{
+        getAll().then((response: { data: any[]; }) => {
+          setPlatforms(response.data.sort(compare));
+        });
+        console.log('UPDATING DATA!')
+       }, 250)
+    // eslint-disable-next-line
+    }, [show]);
       return (
         
         <>
@@ -36,14 +46,14 @@ const EditPlatformComponent = (props: any) => {
             <Form onSubmit={sendData}>
               <Form.Group controlId="formBasicName">
                   <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" placeholder="Platform name" defaultValue={props.name} onChange={handleInputChange} name="name"/>
+                  <Form.Control type="text" placeholder="Platform name" defaultValue={name} onChange={handleInputChange} name="name"/>
                   <Form.Text className="text-muted">
                       Write an indicative name for the platform
               </Form.Text>
               </Form.Group>
               <Form.Group controlId="formBasicPassword">
                   <Form.Label>Url</Form.Label>
-                  <Form.Control type="text" placeholder="Platform url" defaultValue={props.url} onChange={handleInputChange} name="url"/>
+                  <Form.Control type="text" placeholder="Platform url" defaultValue={url} onChange={handleInputChange} name="url"/>
                   <Form.Text className="text-muted">
                       Write the url of the site
                   </Form.Text>

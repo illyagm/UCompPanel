@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 const CreatePlatformModalComponent = (props: any) => {
+  const { getAll, insertPlatform, setPlatforms, compare } = props;
+  //Metodos modal
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   //Metodos formulario
   const [datos, setDatos] = useState({
     name: '',
@@ -12,15 +17,23 @@ const CreatePlatformModalComponent = (props: any) => {
       [event.target.name]: event.target.value
     })
   };
-  const sendData = (event: { preventDefault: () => void; }) => {
+  const sendData = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    props.insertPlatform(datos.name, datos.url);
+    insertPlatform(datos.name, datos.url);
     console.log('sending data...' + datos.name + ' ' + datos.url + ' ' + datos.url);
     setShow(false);
+    //console.log('get updated info ' + await props.getAll())
+
   }
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  useEffect(() => {
+    setTimeout(()=>{
+      getAll().then((response: { data: any[]; }) => {
+        setPlatforms(response.data.sort(compare));
+      });
+      console.log('UPDATING DATA!')
+     }, 250)
+  // eslint-disable-next-line
+  }, [show]);
 
   return (
 
