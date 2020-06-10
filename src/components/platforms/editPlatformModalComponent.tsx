@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
-import PlatformService from '../../services/PlatformService';
 const EditPlatformComponent = (props: any) => {
-    //instancia serivicio
-    const platformService = new PlatformService();
     //Metodos formulario
     const [datos, setDatos] = useState({
       name: props.name,
@@ -17,7 +14,7 @@ const EditPlatformComponent = (props: any) => {
     };
     const sendData = (event: { preventDefault: () => void; }) => {
       event.preventDefault();
-      platformService.editPlatform(props.id, datos.name, datos.url);
+      props.editPlatform(props.id, datos.name, datos.url);
       console.log('sending data...' + datos.name + ' ' + datos.url);
       setShow(false);
     }

@@ -23,8 +23,8 @@ const ButtonsStyle = styled.div`
 `;
 const CardsPlatformComponent = () => {
     const platformService = new PlatformService();
+    const { getAll, insertPlatform, editPlatform, deletePlatform  } = platformService; 
     const [platforms, setPlatforms] = useState([]);
-    const [loading, setLoading] = useState(false);
     //Sort alfabetically
     function compare (a: any, b: any) {
         const platformA = a.name.toUpperCase();
@@ -40,18 +40,19 @@ const CardsPlatformComponent = () => {
     };  
     useEffect(() => {
         const getPlatforms = () => {
-            setLoading(true);
-            platformService.getAll().then(response => {
+            getAll().then(response => {
                 setPlatforms(response.data.sort(compare));
             });
-            setLoading(false);
         };
         getPlatforms();
-    }, [])
+    }, [getAll])
+    useEffect(() => {
+        console.log('RENDERING PLATFORMS', platforms);
+    });
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [active, setActive] = useState(1);
-    const [platformsPerPage] = useState(6);
+    const [platformsPerPage] = useState(8);
     const indexOfLastPlatform = currentPage * platformsPerPage;
     const indexOfFirstPost = indexOfLastPlatform - platformsPerPage;
     const currentPlatforms = platforms.slice(indexOfFirstPost, indexOfLastPlatform);
@@ -60,9 +61,10 @@ const CardsPlatformComponent = () => {
         setCurrentPage(pageNumber);
         setActive(pageNumber);
     } 
+    console.log(platforms);
     return (
         <ButtonsStyle>
-            <InsertPlatformModal />
+            <InsertPlatformModal getPlatforms={setPlatforms} insertPlatform={insertPlatform} setPlatforms={setPlatforms} compare={compare}/>
             <Container>
                 <Row>
                     {
@@ -83,10 +85,10 @@ const CardsPlatformComponent = () => {
                                     </Card.Text>
                                     <Row>
                                         <Col sm={3}>
-                                        <EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} />
+                                        <EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} />
                                         </Col>
                                         <Col sm={3}>
-                                        <DeleteButton platformId={platform.id} platformName={platform.name}/>
+                                        <DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}/>
                                         </Col>
                                     </Row>                              
                                 </Card.Body>

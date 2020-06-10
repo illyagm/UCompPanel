@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import PlatformService from '../../services/PlatformService';
 
 const ConfirmDeletion = (props: any) => {
-    const platformService = new PlatformService();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const deleteCard = (id: String) => {
-        platformService.deletePlatform(id);
+        props.deletePlatform(id);
         setShow(false);
     }
     return (

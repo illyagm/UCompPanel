@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import styled from 'styled-components';
 const Styles = styled.div`
