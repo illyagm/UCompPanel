@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //import all react components here
 import NavComponent from './navbar/NavComponent';
-import CardsPlatformComponent from './platforms/cardsPlatformComponents';
+//import CardsPlatformComponent from './platforms/cardsPlatformComponents';
 import PlatformsTable from './platforms/platformsTable';
 import NoMatchComponent from './noMatch/NoMatchComponent';
 import HomeComponent from './home/HomeComponent';
@@ -17,9 +17,9 @@ export const MainComponent = () => {
             <LayoutComponent>
             <Router>
                 <Switch>
-                    <Route exact path="/" component={HomeComponent} />
-                    <Route path="/platforms" component={PlatformsTable} />
+                    <Route exact path="/platforms" component={PlatformsTable} />
                     <Route path="/operations" component={StatsComponent} />
+                    <Route path="/about" component={HomeComponent} />
                     <Route component={NoMatchComponent} />
                 </Switch>
             </Router>

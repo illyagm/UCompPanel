@@ -26,7 +26,7 @@ const ConfirmDeletion = (props: any) => {
          Delete
         </Button> 
   
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} centered>
           <Modal.Header closeButton>
             <Modal.Title>Delete <b>{truncate(platformName)}</b>?</Modal.Title>
           </Modal.Header>

@@ -38,7 +38,7 @@ const EditPlatformComponent = (props: any) => {
           <Button variant="warning" onClick={handleShow}>
             Edit
           </Button>
-          <Modal show={show} onHide={handleClose}>
+          <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
               <Modal.Title>Editar plataforma</Modal.Title>
             </Modal.Header>

@@ -20,13 +20,13 @@ const NavComponent = () => {
     return (
         <NavStyle>
             <Navbar expand="lg">
-                <Navbar.Brand href="/"><b>UComp</b></Navbar.Brand>
+                <Navbar.Brand href="/platforms"><b>UComp</b></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
-                        <Nav.Item><Nav.Link href="/">Home</Nav.Link></Nav.Item>
                         <Nav.Item><Nav.Link href="/platforms">Platforms</Nav.Link></Nav.Item>
                         <Nav.Item><Nav.Link href="/operations">Operations</Nav.Link></Nav.Item>
+                        <Nav.Item><Nav.Link href="/about">What is UComp?</Nav.Link></Nav.Item>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
