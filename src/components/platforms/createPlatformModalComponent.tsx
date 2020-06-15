@@ -33,7 +33,7 @@ const CreatePlatformModalComponent = (props: any) => {
   const sendData = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     insertPlatform(datos.name, datos.url, categorias);
-    console.log('sending data...' + datos.name + ' ' + datos.url + ' ' + datos.url);
+    console.log('sending data...\n' + datos.name + '\n ' + datos.url + '\n ' + datos.url + '\n '+categorias);
     setShow(false);
     //console.log('get updated info ' + await props.getAll())
 
@@ -41,7 +41,7 @@ const CreatePlatformModalComponent = (props: any) => {
   useEffect(() => {
     setTimeout(() => {
       getAll().then((response: { data: any[]; }) => {
-        setPlatforms(response.data);
+        setPlatforms(response.data.sort(compare));
       });
       console.log('UPDATING DATA!')
     }, 250)

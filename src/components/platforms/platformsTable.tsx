@@ -36,7 +36,7 @@ const PlatformsTable = () => {
     useEffect(() => {
         const getPlatforms = () => {
             getAll().then(response => {
-                setPlatforms(response.data);
+                setPlatforms(response.data.sort(compare));
             });
         };
         const categoriesInfo = () => {
@@ -89,7 +89,7 @@ const PlatformsTable = () => {
                     <td><a target="_blank" rel="noopener noreferrer" href={"" + platform.url + ""}>{truncate(platform.url)}</a></td>
                     <td><TimeAgo date={platform.createdAt} /></td>
                     <td><TimeAgo date={platform.updatedAt} /></td>
-                    <td><b>{platform.category.toString()}</b></td>
+                    <td><b>{truncate(platform.category.toString())}</b></td> 
                     <td><EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} setPlatforms={setPlatforms}  getAll={getAll} compare={compare} categories={categories} /></td>
                     <td><DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}  setPlatforms={setPlatforms} getAll={getAll} compare={compare} truncate={truncate}/></td>
                    

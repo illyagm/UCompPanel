@@ -32,14 +32,14 @@ const EditPlatformComponent = (props: any) => {
   }
   const sendData = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    editPlatform(id, datos.name, datos.url);
-    console.log('sending data...\n' + datos.name + '\n ' + datos.url + '\n ' +categorias);
+    editPlatform(id, datos.name, datos.url, categorias);
+    console.log('sending data... from editModal\n' + datos.name + '\n ' + datos.url + '\n ' +categorias);
     setShow(false);
   }
     useEffect(() => {
       setTimeout(()=>{
         getAll().then((response: { data: any[]; }) => {
-          setPlatforms(response.data);
+          setPlatforms(response.data.sort(compare));
         });
         console.log('UPDATING DATA!')
        }, 250)
@@ -64,6 +64,13 @@ const EditPlatformComponent = (props: any) => {
                       Write an indicative name for the platform
               </Form.Text>
               </Form.Group>
+              <Form.Group controlId="formBasicName">
+                  <Form.Label>ID</Form.Label>
+                  <Form.Control type="text" placeholder="Platform name" defaultValue={id} disabled/>
+                  <Form.Text className="text-muted">
+                      Platform id
+              </Form.Text>
+              </Form.Group>
               <Form.Group controlId="formBasicPassword">
                   <Form.Label>Url</Form.Label>
                   <Form.Control type="text" placeholder="Platform url" defaultValue={url} onChange={handleInputChange} name="url"/>
@@ -72,7 +79,7 @@ const EditPlatformComponent = (props: any) => {
                   </Form.Text>
               </Form.Group>
               <Form.Group>
-            <Form.Control as="select" multiple onChange={handleSelectChange}>
+              <Form.Control as="select" multiple onChange={handleSelectChange}>
               {categories.map((category: ICategory, key: number) => (
                 <option key={''+category.name} value={''+category.name}>
                   {category.name}
