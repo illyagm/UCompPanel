@@ -1,8 +1,7 @@
-export interface IPlatform {
+export interface ICategory {
     id: String;
     name: String;
-    url: String;
-    category: String[];
+    is_active: Boolean;
     createdAt: Date;
     updatedAt: Date;
 }

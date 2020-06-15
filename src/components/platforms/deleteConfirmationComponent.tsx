@@ -14,7 +14,7 @@ const ConfirmDeletion = (props: any) => {
     useEffect(() => {
       setTimeout(()=>{
        getAll().then((response: { data: any[]; }) => {
-          setPlatforms(response.data.sort(compare));
+          setPlatforms(response.data);
         });
         console.log('UPDATING DATA!')
        }, 250)

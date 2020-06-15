@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Container } from 'react-bootstrap';
 import PlatformService from '../../services/PlatformService';
+import CategoryService from '../../services/CategoryService/CategoryService';
 import InsertPlatformModal from '../platforms/createPlatformModalComponent';
 import styled from 'styled-components';
 import PaginationPlatformsComponents from './paginationPlatformsComponent';
@@ -23,8 +24,11 @@ const ButtonsStyle = styled.div`
 `;
 const CardsPlatformComponent = () => {
     const platformService = new PlatformService();
+    const categoryService = new CategoryService();
     const { getAll, insertPlatform, editPlatform, deletePlatform  } = platformService; 
+    const { getCategories } = categoryService;
     const [platforms, setPlatforms] = useState([]);
+    const [categories, setCategories] = useState([]);
     //Sort alfabetically
     const compare = (a: any, b: any) => {
         const platformA = a.name.toUpperCase();
@@ -41,10 +45,16 @@ const CardsPlatformComponent = () => {
     useEffect(() => {
         const getPlatforms = () => {
             getAll().then(response => {
-                setPlatforms(response.data.sort(compare));
+                setPlatforms(response.data);
             });
         };
+        const categoriesInfo = () => {
+            getCategories().then(response => {
+                setCategories(response.data);
+            });
+        }
         getPlatforms();
+        categoriesInfo();
     }, [getAll])
     useEffect(() => {
         console.log('RENDERING PLATFORMS', platforms);
@@ -67,7 +77,7 @@ const CardsPlatformComponent = () => {
     console.log(platforms);
     return (
         <ButtonsStyle>
-            <InsertPlatformModal insertPlatform={insertPlatform} setPlatforms={setPlatforms} getAll={getAll} compare={compare}/>
+            <InsertPlatformModal insertPlatform={insertPlatform} setPlatforms={setPlatforms} getAll={getAll} compare={compare} categories={categories} /> 
             <Container>
                 <Row>
                     {

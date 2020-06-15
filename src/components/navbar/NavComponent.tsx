@@ -26,7 +26,7 @@ const NavComponent = () => {
                     <Nav className="ml-auto">
                         <Nav.Item><Nav.Link href="/platforms">Platforms</Nav.Link></Nav.Item>
                         <Nav.Item><Nav.Link href="/operations">Operations</Nav.Link></Nav.Item>
-                        <Nav.Item><Nav.Link href="/about">What is UComp?</Nav.Link></Nav.Item>
+                        <Nav.Item><Nav.Link href="/about">About UComp</Nav.Link></Nav.Item>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

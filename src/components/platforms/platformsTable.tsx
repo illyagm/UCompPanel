@@ -7,14 +7,19 @@ import PaginationPlatformsComponents from './paginationPlatformsComponent';
 import EditPlatformModalComponent from './editPlatformModalComponent';
 import DeleteButton from './deleteConfirmationComponent';
 import { IPlatform } from '../../models/platform/IPlatform';
+import { ICategoryService } from '../../services/CategoryService/ICategoryService';
+import CategoryService from '../../services/CategoryService/CategoryService';
 //TIME AGO <Card.Img className="cardImage" variant="top" src={require(`../../assets/${platform.icon}`)} />
 import TimeAgo from 'react-timeago';
 
 
 const PlatformsTable = () => {
     const platformService = new PlatformService();
+    const categoryService = new CategoryService();
     const { getAll, insertPlatform, editPlatform, deletePlatform  } = platformService; 
+    const { getCategories } = categoryService;
     const [platforms, setPlatforms] = useState([]);
+    const [categories, setCategories] = useState([]);
     //Sort alphabetically
     const compare = (a: any, b: any) => {
         const platformA = a.name.toUpperCase();
@@ -31,10 +36,16 @@ const PlatformsTable = () => {
     useEffect(() => {
         const getPlatforms = () => {
             getAll().then(response => {
-                setPlatforms(response.data.sort(compare));
+                setPlatforms(response.data);
             });
         };
+        const categoriesInfo = () => {
+            getCategories().then(response => {
+                setCategories(response.data);
+            });
+        }
         getPlatforms();
+        categoriesInfo();
     }, [getAll])
     useEffect(() => {
         console.log('RENDERING PLATFORMS', platforms);
@@ -55,6 +66,7 @@ const PlatformsTable = () => {
         return str.length > 10 ? str.substring(0, 20) + "..." : str;
     }
     console.log(platforms);
+    console.log(categories);
     return (
         <div>
         <Table striped bordered hover responsive>
@@ -64,8 +76,9 @@ const PlatformsTable = () => {
                     <th>Url</th>
                     <th>Created</th>
                     <th>Updated</th>
+                    <th>Category</th>
                     <th></th>
-                    <th><InsertPlatformModal insertPlatform={insertPlatform} setPlatforms={setPlatforms} getAll={getAll} compare={compare}/></th>
+                    <th><InsertPlatformModal insertPlatform={insertPlatform} setPlatforms={setPlatforms} getAll={getAll} compare={compare} categories={categories}/></th>
                 </tr>
             </thead>
             <tbody>
@@ -76,8 +89,10 @@ const PlatformsTable = () => {
                     <td><a target="_blank" rel="noopener noreferrer" href={"" + platform.url + ""}>{truncate(platform.url)}</a></td>
                     <td><TimeAgo date={platform.createdAt} /></td>
                     <td><TimeAgo date={platform.updatedAt} /></td>
-                    <td><EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} setPlatforms={setPlatforms}  getAll={getAll} compare={compare} /></td>
+                    <td><b>{platform.category.toString()}</b></td>
+                    <td><EditPlatformModalComponent id={platform.id} name={platform.name} url={platform.url} editPlatform={editPlatform} setPlatforms={setPlatforms}  getAll={getAll} compare={compare} categories={categories} /></td>
                     <td><DeleteButton platformId={platform.id} platformName={platform.name} deletePlatform={deletePlatform}  setPlatforms={setPlatforms} getAll={getAll} compare={compare} truncate={truncate}/></td>
+                   
                 </tr>
                 )
             })}

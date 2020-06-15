@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
+import { ICategory } from '../../models/category/ICategory';
 const CreatePlatformModalComponent = (props: any) => {
-  const { getAll, insertPlatform, setPlatforms, compare } = props;
+  const { getAll, insertPlatform, setPlatforms, compare, categories } = props;
   //Metodos modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -11,28 +12,40 @@ const CreatePlatformModalComponent = (props: any) => {
     name: '',
     url: ''
   });
+  const [categorias, setCategorias] = useState(['']);
   const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
     setDatos({
       ...datos,
       [event.target.name]: event.target.value
     })
   };
+  const handleSelectChange = (event: any) => {
+      var options = event.target.options;
+      var valuesArray = [];
+      for ( var i = 0, l=options.length; i<l; i++){
+          if (options[i].selected) {
+            valuesArray.push(options[i].value);
+          }
+      } 
+      setCategorias(valuesArray);
+      console.log(categorias);
+  }
   const sendData = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    insertPlatform(datos.name, datos.url);
+    insertPlatform(datos.name, datos.url, categorias);
     console.log('sending data...' + datos.name + ' ' + datos.url + ' ' + datos.url);
     setShow(false);
     //console.log('get updated info ' + await props.getAll())
 
   }
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       getAll().then((response: { data: any[]; }) => {
-        setPlatforms(response.data.sort(compare));
+        setPlatforms(response.data);
       });
       console.log('UPDATING DATA!')
-     }, 250)
-  // eslint-disable-next-line
+    }, 250)
+    // eslint-disable-next-line
   }, [show]);
 
   return (
@@ -62,6 +75,18 @@ const CreatePlatformModalComponent = (props: any) => {
                 Write the url of the site
                 </Form.Text>
             </Form.Group>
+            <Form.Group>
+            <Form.Control as="select" multiple onChange={handleSelectChange}>
+              {categories.map((category: ICategory, key: number) => (
+                <option key={''+category.name} value={''+category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Text className="text-muted">
+               Select a category
+                </Form.Text>
+          </Form.Group>
             <Button variant="success" type="submit">
               Insert
             </Button>
